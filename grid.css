@@ -1,6 +1,6 @@
 .grid {
 	display: grid;
-	grid-template-columns: repeat(2, 1fr);
+	grid-template-columns: repeat(1, 1fr);
 	column-gap: 1vw;
 	align-items: stretch;
 	padding: 1vw;
@@ -13,4 +13,11 @@
 	height: 100%;
 	display: block;
 	object-fit: cover;
+}
+
+.col,
+.row {
+	padding-left: 0.5em !important;
+	padding-right: 0.5em !important;
+	margin-left: 0 !important;
 }

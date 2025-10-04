@@ -76,8 +76,8 @@ nav {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding-left: 0.25vw;
 	background-color: rgb(28, 29, 29);
+  margin: 0;
 	z-index: 9999;
 }
 
