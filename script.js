@@ -23,7 +23,6 @@ map.on('click', function (e) {
 document.getElementById('simulateBtn').addEventListener('click', function() {
   const mass = parseFloat(document.getElementById('mass').value); // kg
   const velocity = parseFloat(document.getElementById('velocity').value); // km/s
-  const angle = parseFloat(document.getElementById('angle').value);
   let lat = parseFloat(document.getElementById('lat').value);
   let lng = parseFloat(document.getElementById('lng').value);
 
@@ -39,7 +38,11 @@ document.getElementById('simulateBtn').addEventListener('click', function() {
   }
 
   // A very crude radius formula (just for demo)
-  const radius = Math.pow(mass, 0.3) * velocity * 5; // in meters
+  const energy = 0.5*mass*Math.pow(velocity, 2);
+  const Wtnt = energy/(4184000);
+  const radius = 58.6 * Math.pow(Wtnt, 0.333);
+  console.log(radius);
+
 
   // Draw circle
   const circle = L.circle([lat, lng], {
@@ -52,7 +55,6 @@ document.getElementById('simulateBtn').addEventListener('click', function() {
       <b>Meteor Impact</b><br>
       Mass: ${mass} kg<br>
       Velocity: ${velocity} km/s<br>
-      Angle: ${angle}°<br>
       Radius: ${Math.round(radius)} m
     `);
 
