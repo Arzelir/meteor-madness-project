@@ -1,0 +1,16 @@
+.grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	column-gap: 1vw;
+	align-items: stretch;
+	padding: 1vw;
+	overflow: hidden;
+}
+
+/* Style individual images */
+.grid img {
+	width: 100%;
+	height: 100%;
+	display: block;
+	object-fit: cover;
+}

@@ -1,39 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meteor Impact Simulator</title>
-  <!-- Leaflet CSS -->
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-  />
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Meteor Impact Simulator</title>
+		<!-- Leaflet CSS -->
+		<link
+			rel="stylesheet"
+			href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+		/>
+		<!-- Custom CSS -->
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<header>
+			<!--Navbar-->
+			<nav>
+				<a
+					href="index.html"
+					id="corner_logo"
+					style="display: block; padding-left: 2%; padding-bottom: 2%"
+					><img src="pictures/EyeLogo.png" alt="Logo"
+				/></a>
+				<ul class="nav_links">
+					<li><a class="active" href="index.html">Calculator</a></li>
+					<li><a class="disabled" href="about.html">About</a></li>
+					<li><a class="disabled" href="about.html">Research</a></li>
+				</ul>
+			</nav>
+		</header>
 
-  <h1>Meteor Impact Simulator</h1>
+		<h1>Meteor Impact Simulator</h1>
+		<br /><br /><br /><br />
 
-  <div class="controls">
-    <label>Mass (kg): <input type="number" id="mass" value="1000"></label>
-    <label>Velocity (km/s): <input type="number" id="velocity" value="20"></label>
-    <br><br>
-    <label>Latitude: <input type="number" id="lat" step="0.0001"></label>
-    <label>Longitude: <input type="number" id="lng" step="0.0001"></label>
-    <button id="simulateBtn">Simulate Impact</button>
-    <button id="removeBtn">Remove All Impacts</button>
-    <p><small>Click on the map to choose a location, or enter coordinates manually.</small></p>
-  </div>
+		<div class="controls">
+			<label>Mass (kg): <input type="number" id="mass" value="1000" /></label>
+			<label
+				>Velocity (km/s): <input type="number" id="velocity" value="20"
+			/></label>
+			<br /><br />
+			<label>Latitude: <input type="number" id="lat" step="0.0001" /></label>
+			<label>Longitude: <input type="number" id="lng" step="0.0001" /></label>
+			<br /><br />
+			<button id="simulateBtn">Simulate Impact</button>
+			<button id="removeBtn">Remove All Impacts</button>
+			<br /><br /><br /><br />
+			<p>
+				Click on the map to choose a location, or enter coordinates manually.
+			</p>
+		</div>
 
-  <div id="map"></div>
+		<div id="map"></div>
+		<br /><br /><br /><br />
 
-  <a href="about.html">About Us</a>
-
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <!-- Custom JS -->
-  <script src="script.js"></script>
-</body>
+		<!-- Leaflet JS -->
+		<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+		<!-- Custom JS -->
+		<script src="script.js"></script>
+	</body>
 </html>
