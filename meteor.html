@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meteor Impact Simulator</title>
+  <!-- Leaflet CSS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 1em;
+    }
+    .controls {
+      margin-bottom: 1em;
+    }
+    .controls label {
+      margin-right: 1em;
+    }
+    #map {
+      height: 500px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Meteor Impact Simulator</h1>
+
+  <div class="controls">
+    <label>Mass (kg): <input type="number" id="mass" value="1000"></label>
+    <label>Velocity (km/s): <input type="number" id="velocity" value="20"></label>
+    <label>Angle (deg): <input type="number" id="angle" value="45"></label>
+    <br><br>
+    <label>Latitude: <input type="number" id="lat" step="0.0001"></label>
+    <label>Longitude: <input type="number" id="lng" step="0.0001"></label>
+    <button id="simulateBtn">Simulate Impact</button>
+    <button id="removeBtn">Remove All Impacts</button>
+    <p><small>Click on the map to choose a location, or enter coordinates manually.</small></p>
+  </div>
+
+  <div id="map"></div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+    // Initialize map
+    var map = L.map('map').setView([20, 0], 2); // Global view
+
+    // Add base layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Store last chosen location
+    let impactLatLng = null;
+
+    // Keep an array of impact circles so we can remove them later
+    const impactCircles = [];
+
+    // When user clicks the map, store the location and update input boxes
+    map.on('click', function (e) {
+      impactLatLng = e.latlng;
+      document.getElementById('lat').value = e.latlng.lat.toFixed(4);
+      document.getElementById('lng').value = e.latlng.lng.toFixed(4);
+    });
+
+    // Simulate button
+    document.getElementById('simulateBtn').addEventListener('click', function() {
+      const mass = parseFloat(document.getElementById('mass').value); // kg
+      const velocity = parseFloat(document.getElementById('velocity').value); // km/s
+      const angle = parseFloat(document.getElementById('angle').value);
+      let lat = parseFloat(document.getElementById('lat').value);
+      let lng = parseFloat(document.getElementById('lng').value);
+
+      // If map was clicked, override lat/lng with that
+      if (impactLatLng) {
+        lat = impactLatLng.lat;
+        lng = impactLatLng.lng;
+      }
+
+      if (isNaN(lat) || isNaN(lng)) {
+        alert('Click on the map or enter coordinates first!');
+        return;
+      }
+
+      // A very crude radius formula (just for demo):
+      // For example, radius ~ mass^0.3 * velocity * constant (in meters)
+      const radius = Math.pow(mass, 0.3) * velocity * 5; // in meters
+
+      // Draw circle
+      const circle = L.circle([lat, lng], {
+        radius: radius,
+        color: 'red',
+        fillColor: '#f03',
+        fillOpacity: 0.4
+      }).addTo(map)
+        .bindPopup(`
+          <b>Meteor Impact</b><br>
+          Mass: ${mass} kg<br>
+          Velocity: ${velocity} km/s<br>
+          Angle: ${angle}°<br>
+          Radius: ${Math.round(radius)} m
+        `);
+
+      // Store the circle reference so we can remove later
+      impactCircles.push(circle);
+    });
+
+    // Remove all impacts button
+    document.getElementById('removeBtn').addEventListener('click', function() {
+      impactCircles.forEach(c => map.removeLayer(c));
+      impactCircles.length = 0; // clear the array
+    });
+  </script>
+</body>
+</html>
