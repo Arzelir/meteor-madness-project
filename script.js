@@ -155,12 +155,12 @@ function displayAsteroidData(asteroid) {
   const velocity = calculateImpactVelocity(asteroid.velocity);
 	const radius = calculateImpactRadius(mass, velocity);
 
+	document.getElementById("mass").value = mass;
+	document.getElementById("velocity").value = velocity;
+
 	dataDiv.innerHTML = `
     <h2>${asteroid.name}</h2>
     <p><strong>Diameter:</strong> ${asteroid.diameter} meters</p>
-    <p><strong>Velocity:</strong> ${asteroid.velocity} km/s</p>
-    <p><strong>Estimated Mass:</strong> ${mass.toExponential(2)} kg</p>
-    <p><strong>Impact Radius (crude):</strong> ${Math.round(radius)} m</p>
   `;
 }
 
@@ -249,5 +249,8 @@ document.getElementById("removeBtn").addEventListener("click", () => {
 	document.getElementById("lng").value="";
 
 	impactLatLng = null;
+
+	document.getElementById("mass").value="";
+	document.getElementById("velocity").value="";
 
 });
