@@ -2,6 +2,10 @@
 // Map Initialization
 // ----------------------------
 const map = L.map("map").setView([20, 0], 2);
+map.setMaxBounds([
+	[-90,-Infinity],
+	[90, Infinity]
+]);
 
 L.tileLayer(
 	"https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
@@ -127,22 +131,6 @@ function calculateImpactVelocity(velocity) {
 // ----------------------------
 let impactCircles = [];
 let impactLatLng = null;
-
-function drawImpactCircle(lat, lng, radius, asteroidName, mass, velocity) {
-	const circle = L.circle([lat, lng], {
-		radius: radius,
-		color: "red",
-		fillColor: "#f03",
-		fillOpacity: 0.4,
-	}).addTo(map).bindPopup(`
-    <b>Meteor Impact</b><br>
-    Asteroid: ${asteroidName}<br>
-    Mass: ${mass.toExponential(2)} kg<br>
-    Velocity: ${velocity} km/s<br>
-    Radius: ${Math.round(radius)} m
-  `);
-	impactCircles.push(circle);
-}
 
 function clearImpacts() {
 	impactCircles.forEach((c) => map.removeLayer(c));
@@ -338,5 +326,7 @@ document.getElementById("removeBtn").addEventListener("click", () => {
 
 	document.getElementById("mass").value="1000";
 	document.getElementById("velocity").value="20";
+
+	map.setView([20, 0], 2);
 
 });
