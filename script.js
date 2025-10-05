@@ -58,6 +58,61 @@ const asteroids = [
 ];
 
 // ----------------------------
+// UI / Interaction
+// ----------------------------
+const select = document.getElementById("asteroidSelect");
+const dataDiv = document.getElementById("asteroidData");
+let selectedAsteroid = null;
+
+// Populate dropdown
+asteroids.forEach((a) => {
+	const option = document.createElement("option");
+	option.value = a.spk;
+	option.textContent = a.name;
+	select.appendChild(option);
+});
+
+// Populate live dropdown
+asteroids.forEach((a) => {
+	const option = document.createElement("option");
+	option.value = a.spk;
+	option.textContent = a.name;
+	select.appendChild(option);
+});
+
+// ----------------------------
+// Live NEOs from NASA API
+// ----------------------------
+const liveSelect = document.getElementById('liveNEOs');
+const apiKey = 'ap5ipjceswy7YvbAyjq6cGn2uZiwhKq98AZmt8qR';
+const today = new Date().toISOString().split('T')[0];
+const endDate = new Date();
+endDate.setDate(endDate.getDate() + 7);
+const endStr = endDate.toISOString().split('T')[0];
+
+fetch(`https://api.nasa.gov/neo/rest/v1/feed?start_date=${today}&end_date=${endStr}&api_key=${apiKey}`)
+  .then(res => res.json())
+  .then(data => {
+    // flatten all date arrays into one
+    const allNEOs = Object.values(data.near_earth_objects).flat();
+    allNEOs.forEach((neo) => {
+      const name = neo.name;
+      // pick some values for velocity & diameter
+      const close = neo.close_approach_data[0];
+      const velocity = parseFloat(close.relative_velocity.kilometers_per_second);
+      const diameter = (neo.estimated_diameter.meters.estimated_diameter_max +
+                        neo.estimated_diameter.meters.estimated_diameter_min) / 2;
+      const opt = document.createElement('option');
+      opt.value = JSON.stringify({ name, diameter, velocity });
+      opt.textContent = `${name} (${velocity.toFixed(1)} km/s)`;
+      liveSelect.appendChild(opt);
+    });
+  })
+  .catch(err => console.error(err));
+
+
+
+// ----------------------------
 // Calculations
 // ----------------------------
 function calculateMass(diameter, density) {
@@ -104,21 +159,6 @@ function clearImpacts() {
 	impactCircles = [];
 }
 
-// ----------------------------
-// UI / Interaction
-// ----------------------------
-const select = document.getElementById("asteroidSelect");
-const dataDiv = document.getElementById("asteroidData");
-let selectedAsteroid = null;
-
-// Populate dropdown
-asteroids.forEach((a) => {
-	const option = document.createElement("option");
-	option.value = a.spk;
-	option.textContent = a.name;
-	select.appendChild(option);
-});
-
 // Display asteroid data
 function displayAsteroidData(asteroid) {
 	const mass = calculateMass(asteroid.diameter, asteroid.density);
@@ -139,6 +179,21 @@ select.addEventListener("change", () => {
 	selectedAsteroid = asteroids.find((a) => a.spk === select.value);
 	if (selectedAsteroid) displayAsteroidData(selectedAsteroid);
 });
+
+// Live NEO dropdown change
+liveSelect.addEventListener("change", () => {
+  if (!liveSelect.value) return;
+  const { name, diameter, velocity } = JSON.parse(liveSelect.value);
+  // Build a pseudo-asteroid object with guessed density
+  selectedAsteroid = {
+    name,
+    diameter,
+    velocity,
+    density: 2000 // guess, since API has no density
+  };
+  displayAsteroidData(selectedAsteroid);
+});
+
 
 // ----------------------------
 // Map Click Handler
