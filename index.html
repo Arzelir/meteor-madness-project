@@ -45,7 +45,9 @@
 		<br /><br />
 
 		<p style="text-align: center">
-			Click on the map to choose a location, or enter coordinates manually.
+			Welcome to our Meteor Impact Simulator, developed by two
+			Software-Engineering students for a hackathon project. Click on the map to
+			choose a location, or enter coordinates manually.
 		</p>
 
 		<div class="container">
@@ -60,17 +62,10 @@
 					style="flex: 0 0 30%; max-width: 30%; margin-right: 0%"
 				>
 					<div class="controls">
-						<button id="simulateBtn">Simulate Impact</button>
+						<button id="simulateBtn">Simulate</button>
 						<button id="removeBtn">Reset All</button>
 						<br /><br />
-						<label
-							>Mass of Meteor (kg): <input type="number" id="mass" value="1000"
-						/></label>
-						<label
-							>Impact Velocity (km/s):
-							<input type="number" id="velocity" value="20"
-						/></label>
-						<br /><br />
+
 						<label
 							>Latitude: <input type="number" id="lat" step="0.0001"
 						/></label>
@@ -81,17 +76,27 @@
 						<br /><br />
 						<label>Select An Asteroid:</label>
 						<select id="asteroidSelect">
-							<option value="">--- User Input (Default) ---</option>
+							<option value="">User Input (Default)</option>
 						</select>
 
-						<br /><br />
+						<br />
 
 						<label for="liveNEOs">Live Near-Earth Objects:</label>
 						<select id="liveNEOs">
-							<option value="">Select a live NEO</option>
+							<option value="">User Input (Default)</option>
 						</select>
 
 						<div id="asteroidData"></div>
+
+						<br /><br />
+						<label
+							>Mass of Meteor (kg): <input type="number" id="mass" value="1000"
+						/></label>
+						<label
+							>Impact Velocity (km/s):
+							<input type="number" id="velocity" value="20"
+						/></label>
+						<br /><br />
 					</div>
 				</div>
 			</div>
