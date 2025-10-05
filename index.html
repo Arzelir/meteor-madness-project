@@ -21,6 +21,7 @@
 		<!-- Custom CSS -->
 		<link rel="stylesheet" href="style.css" />
 		<link rel="stylesheet" href="interactive.css" />
+		<link rel="stylesheet" href="resize.css" />
 	</head>
 	<body>
 		<header>
@@ -28,13 +29,13 @@
 			<nav>
 				<a
 					href="index.html"
+					class="corner_logo"
 					id="corner_logo"
 					style="display: block; padding-left: 2%; padding-bottom: 2%"
 					><img src="Logo.png" alt="Logo"
 				/></a>
 				<ul class="nav_links">
-					<li><a class="active" href="index.html">Calculator</a></li>
-					<li><a class="disabled" href="about.html">About</a></li>
+					<li><a class="active" href="index.html">Simulator</a></li>
 					<li><a class="disabled" href="research.html">Research</a></li>
 				</ul>
 			</nav>
@@ -51,19 +52,15 @@
 		</p>
 
 		<div class="container">
-			<div class="row">
-				<div
-					class="col-8 col-md-8"
-					id="map"
-					style="flex: 0 0 70%; max-width: 70%; margin-left: 0%"
-				></div>
-				<div
-					class="col-4 col-md-4"
-					style="flex: 0 0 30%; max-width: 30%; margin-right: 0%"
-				>
+			<div class="row custom-row">
+				<div class="col-12 custom-col1" id="map"></div>
+				<div class="col-12 custom-col2" id="second-col">
 					<div class="controls">
-						<button id="simulateBtn">Simulate</button>
-						<button id="removeBtn">Reset All</button>
+						<div id="buttonBox">
+							<button id="simulateBtn">Simulate</button>
+							<button id="removeBtn">Reset All</button>
+						</div>
+
 						<br /><br />
 
 						<label
@@ -74,7 +71,7 @@
 						/></label>
 
 						<br /><br />
-						<label>Select An Asteroid:</label>
+						<label>Asteroids and Celestial Bodies:</label>
 						<select id="asteroidSelect">
 							<option value="">User Input (Default)</option>
 						</select>
@@ -88,7 +85,7 @@
 
 						<div id="asteroidData"></div>
 
-						<br /><br />
+						<br />
 						<label
 							>Mass of Meteor (kg): <input type="number" id="mass" value="1000"
 						/></label>

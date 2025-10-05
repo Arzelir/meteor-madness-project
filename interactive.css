@@ -5,6 +5,7 @@ input,
 	border: 3px solid rgb(157, 150, 167);
 	padding: 0.25em;
 	padding-left: 0.5em;
+	padding-right: 0.5em;
 	border-radius: 12px;
 	background-color: #232227;
 	color: aliceblue;
@@ -15,6 +16,7 @@ input,
 button {
 	color: rgb(157, 150, 167);
 	margin-right: 0.5em;
+	margin-bottom: 0;
 }
 
 button:hover,

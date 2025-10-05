@@ -83,7 +83,7 @@ nav {
 header {
 	position: sticky;
 	top: 0;
-	z-index: 9999;
+	z-index: 99999;
 }
 
 #person_img {
@@ -135,4 +135,12 @@ a {
 
 .nav_links.show {
 	display: flex;
+}
+
+#buttonBox {
+	position: sticky;
+	background-color: rgb(28, 29, 29);
+	padding: 2em;
+	border-radius: 12px;
+	top: 6em;
 }

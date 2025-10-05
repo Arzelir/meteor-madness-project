@@ -1,0 +1,59 @@
+@media (max-width: 1200px) {
+	* {
+		text-align: center;
+		align-items: center;
+		align-self: center;
+		align-content: center;
+	}
+
+	.custom-col1,
+	.customcol2 {
+		display: block;
+		width: 100%;
+		margin: 18px;
+	}
+
+	h1,
+	h2 {
+		font-size: 32px;
+	}
+
+	a,
+	p {
+		font-size: 18px;
+		margin: 18px;
+	}
+
+	img {
+		width: 28px;
+		margin: 18px;
+	}
+
+	label,
+	button {
+		font-size: 18px;
+	}
+
+	#buttonBox {
+		position: static;
+	}
+
+	#map {
+		height: 400px;
+		width: 92%;
+	}
+}
+
+@media (min-width: 1199px) {
+	.custom-col1 {
+		flex: 0 0 70%;
+		max-width: 70%;
+		margin-right: 0%;
+	}
+
+	.custom-col2 {
+		flex: 0 0 30%;
+		max-width: 30%;
+		margin-right: 0%;
+	}
+}
