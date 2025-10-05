@@ -66,9 +66,15 @@ function calculateMass(diameter, density) {
 }
 
 function calculateImpactRadius(mass, velocity) {
-	const energy = 0.5 * mass * Math.pow(velocity * 1000, 2);
+	const energy = 0.5 * mass * Math.pow(velocity, 2);
 	const Wtnt = energy / 4184000;
-	return 58.6 * Math.pow(Wtnt, 0.333);
+	return 58.6 * Math.pow(Wtnt, 0.33333333);
+}
+
+function calculateImpactVelocity(velocity) {
+  const velocity_ms = Math.pow(velocity*1000, 2);
+  const v_impact = Math.sqrt(velocity_ms + 125440000);
+  return v_impact;
 }
 
 // ----------------------------
@@ -116,7 +122,9 @@ asteroids.forEach((a) => {
 // Display asteroid data
 function displayAsteroidData(asteroid) {
 	const mass = calculateMass(asteroid.diameter, asteroid.density);
-	const radius = calculateImpactRadius(mass, asteroid.velocity);
+  const velocity = calculateImpactVelocity(asteroid.velocity);
+	const radius = calculateImpactRadius(mass, velocity);
+
 	dataDiv.innerHTML = `
     <h2>${asteroid.name}</h2>
     <p><strong>Diameter:</strong> ${asteroid.diameter} meters</p>
@@ -159,11 +167,11 @@ document.getElementById("simulateBtn").addEventListener("click", () => {
 	if (selectedAsteroid) {
 		// Use asteroid info
 		mass = calculateMass(selectedAsteroid.diameter, selectedAsteroid.density);
-		velocity = selectedAsteroid.velocity;
+		velocity = calculateImpactVelocity(selectedAsteroid.velocity);
 	} else {
 		// Use user inputs
 		mass = parseFloat(document.getElementById("mass").value);
-		velocity = parseFloat(document.getElementById("velocity").value);
+		velocity = parseFloat(document.getElementById("velocity").value)*1000;
 		if (isNaN(mass) || isNaN(velocity))
 			return alert("Please enter valid mass and velocity!");
 	}
