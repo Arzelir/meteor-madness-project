@@ -113,7 +113,7 @@ function calculateMass(diameter, density) {
 function calculateImpactRadius(mass, velocity) {
 	const energy = 0.5 * mass * Math.pow(velocity, 2);
 	const Wtnt = energy / 4184000;
-	return 58.6 * Math.pow(Wtnt, 0.33333333);
+	return 22 * Math.pow(Wtnt, 0.33333333);
 }
 
 function calculateImpactVelocity(velocity) {
@@ -147,6 +147,9 @@ function drawImpactCircle(lat, lng, radius, asteroidName, mass, velocity) {
 function clearImpacts() {
 	impactCircles.forEach((c) => map.removeLayer(c));
 	impactCircles = [];
+	blastLayer.clearLayers();
+	seismicLayer.clearLayers();
+	tsunamiLayer.clearLayers();
 }
 
 // Display asteroid data
@@ -197,37 +200,120 @@ map.on("click", (e) => {
 // ----------------------------
 // Simulate Button
 // ----------------------------
+// Constants
+const f_seismic = 1e-2;
+const f_water = 1e-3;
+
+// Layer groups (ensure these are defined somewhere globally)
+const blastLayer = L.layerGroup().addTo(map);
+const seismicLayer = L.layerGroup().addTo(map);
+const tsunamiLayer = L.layerGroup().addTo(map);
+
+// Function to calculate seismic magnitude (same as before)
+function seismicMagnitude(E_s) {
+    return (Math.log10(E_s) - 4.8) / 1.5;
+}
+
+// Function to calculate seismic radius (rough estimate in meters)
+function seismicRadius(M) {
+    return Math.pow(10, 0.5*M - 1) * 1000;
+}
+
+// Function to estimate tsunami distance (simplified)
+function tsunamiDistance(E_wave) {
+    const rho = 1000; // water density
+    const g = 9.81;
+    const A = 1e10; // impact area in m^2 (simplified)
+    const h = Math.sqrt((2 * E_wave)/(rho*g*A));
+    const slope = 0.01; // average slope
+    return h / slope; // meters inland
+}
+
+// Function to handle drawing the impact circles
+function handleImpact(lat, lng, mass, velocity, name) {
+    const E_impact = 0.5 * mass * velocity ** 2;
+	
+    // Seismic circle
+    const E_seismic = E_impact * f_seismic;
+    const M = seismicMagnitude(E_seismic);
+    const seismicR = seismicRadius(M);
+    const seismicCircle = L.circle([lat, lng], {
+		radius: seismicR,
+        color: "orange",
+        fillColor: "#ffa500",
+        fillOpacity: 0.2,
+    }).addTo(seismicLayer).bindPopup(`
+        <b>Seismic Impact</b><br>
+        Asteroid: ${name}<br>
+        Seismic magnitude: ${M.toFixed(2)}<br>
+        Seismic radius: ${(seismicR/1000).toFixed(1)} km
+    `);
+    impactCircles.push(seismicCircle);
+
+	// Blast circle
+	const blastR = calculateImpactRadius(mass, velocity);
+	const blastCircle = L.circle([lat, lng], {
+		radius: blastR,
+		color: "red",
+		fillColor: "#f03",
+		fillOpacity: 0.4,
+	}).addTo(blastLayer).bindPopup(`
+		<b>Meteor Impact</b><br>
+		Asteroid: ${name}<br>
+		Mass: ${mass.toExponential(2)} kg<br>
+		Velocity: ${(velocity/1000).toFixed(2)} km/s<br>
+		Blast radius: ${Math.round(blastR)} m
+	`);
+	impactCircles.push(blastCircle);
+
+    // Tsunami circle
+    const E_wave = E_impact * f_water;
+    const tsunamiR = tsunamiDistance(E_wave);
+    const tsunamiCircle = L.circle([lat, lng], {
+        radius: tsunamiR,
+        color: "blue",
+        fillColor: "#00f",
+        fillOpacity: 0.1,
+    }).addTo(tsunamiLayer).bindPopup(`
+        <b>Tsunami Estimate</b><br>
+        Asteroid: ${name}<br>
+        Estimated inundation: ${(tsunamiR/1000).toFixed(1)} km
+    `);
+    impactCircles.push(tsunamiCircle);
+}
+
+
+// Updated simulate button
 document.getElementById("simulateBtn").addEventListener("click", () => {
-	// Get coordinates from map click or inputs
-	let lat = impactLatLng
-		? impactLatLng.lat
-		: parseFloat(document.getElementById("lat").value);
-	let lng = impactLatLng
-		? impactLatLng.lng
-		: parseFloat(document.getElementById("lng").value);
-	if (isNaN(lat) || isNaN(lng)) return alert("Please enter valid coordinates!");
+    // Get coordinates from map click or inputs
+    let lat = impactLatLng
+        ? impactLatLng.lat
+        : parseFloat(document.getElementById("lat").value);
+    let lng = impactLatLng
+        ? impactLatLng.lng
+        : parseFloat(document.getElementById("lng").value);
+    if (isNaN(lat) || isNaN(lng)) return alert("Please enter valid coordinates!");
 
-	let mass, velocity;
+    let mass, velocity;
 
-	if (selectedAsteroid) {
-		// Use asteroid info
-		mass = calculateMass(selectedAsteroid.diameter, selectedAsteroid.density);
-		velocity = calculateImpactVelocity(selectedAsteroid.velocity);
-	} else {
-		// Use user inputs
-		mass = parseFloat(document.getElementById("mass").value);
-		velocity = parseFloat(document.getElementById("velocity").value)*1000;
-		if (isNaN(mass) || isNaN(velocity))
-			return alert("Please enter valid mass and velocity!");
-	}
+    if (selectedAsteroid) {
+        // Use asteroid info
+        mass = calculateMass(selectedAsteroid.diameter, selectedAsteroid.density);
+        velocity = calculateImpactVelocity(selectedAsteroid.velocity);
+    } else {
+        // Use user inputs
+        mass = parseFloat(document.getElementById("mass").value);
+        velocity = parseFloat(document.getElementById("velocity").value) * 1000;
+        if (isNaN(mass) || isNaN(velocity))
+            return alert("Please enter valid mass and velocity!");
+    }
 
-	const radius = calculateImpactRadius(mass, velocity);
+    const asteroidName = selectedAsteroid ? selectedAsteroid.name : "Custom";
 
-	// Use asteroid name if selected, else "Custom"
-	const asteroidName = selectedAsteroid ? selectedAsteroid.name : "Custom";
-
-	drawImpactCircle(lat, lng, radius, asteroidName, mass, velocity);
+    // Draw the impact without clearing previous layers
+    handleImpact(lat, lng, mass, velocity, asteroidName);
 });
+
 
 // ----------------------------
 // Remove Button
@@ -250,7 +336,7 @@ document.getElementById("removeBtn").addEventListener("click", () => {
 
 	impactLatLng = null;
 
-	document.getElementById("mass").value="";
-	document.getElementById("velocity").value="";
+	document.getElementById("mass").value="1000";
+	document.getElementById("velocity").value="20";
 
 });
