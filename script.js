@@ -232,4 +232,22 @@ document.getElementById("simulateBtn").addEventListener("click", () => {
 // ----------------------------
 // Remove Button
 // ----------------------------
-document.getElementById("removeBtn").addEventListener("click", clearImpacts);
+
+document.getElementById("removeBtn").addEventListener("click", () => {
+
+	clearImpacts();
+	const asteroidSelect = document.getElementById("asteroidSelect");
+	asteroidSelect.selectedIndex = 0;
+
+	const liveSelect = document.getElementById("liveNEOs");
+	liveSelect.selectedIndex = 0;
+
+	selectedAsteroid = null;
+	dataDiv.innerHTML = "";
+
+	document.getElementById("lat").value="";
+	document.getElementById("lng").value="";
+
+	impactLatLng = null;
+
+});
