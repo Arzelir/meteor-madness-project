@@ -72,14 +72,6 @@ asteroids.forEach((a) => {
 	select.appendChild(option);
 });
 
-// Populate live dropdown
-asteroids.forEach((a) => {
-	const option = document.createElement("option");
-	option.value = a.spk;
-	option.textContent = a.name;
-	select.appendChild(option);
-});
-
 // ----------------------------
 // Live NEOs from NASA API
 // ----------------------------
@@ -109,8 +101,6 @@ fetch(`https://api.nasa.gov/neo/rest/v1/feed?start_date=${today}&end_date=${endS
     });
   })
   .catch(err => console.error(err));
-
-
 
 // ----------------------------
 // Calculations
