@@ -38,18 +38,9 @@ h1 {
 h2 {
 	font-weight: 900;
 	letter-spacing: 0.25vw;
-	font-size: 2.5vw;
+	font-size: 2vw;
 	padding-top: 2vw;
-	padding-bottom: 1.5vw;
 	color: aliceblue;
-}
-
-/*SubHeading*/
-h3 {
-	letter-spacing: 0.25vw;
-	font-size: 2.5vw;
-	color: aliceblue;
-	padding-left: 2%;
 }
 
 h5 {
@@ -67,6 +58,14 @@ a {
 	word-spacing: 0.2vw;
 	color: aliceblue;
 	text-decoration: none;
+}
+
+p {
+	padding-bottom: 0%;
+}
+
+label {
+	font-size: 1.25vw;
 }
 
 nav {
@@ -88,7 +87,7 @@ header {
 }
 
 #person_img {
-	width: 60%;
+	width: 100%;
 }
 
 img {
