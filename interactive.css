@@ -1,0 +1,30 @@
+button,
+input,
+#asteroidSelect {
+	border: 3px solid rgb(157, 150, 167);
+	padding: 0.25em;
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+	border-radius: 12px;
+	background-color: #232227;
+	color: aliceblue;
+	margin-right: 2.5%;
+	margin-bottom: 3%;
+	font: 900;
+}
+
+button {
+	color: rgb(157, 150, 167);
+}
+
+button:hover,
+#asteroidSelect:hover {
+	background-color: #3f3f41;
+	border: 2px solid #3f3f41;
+	color: aliceblue;
+}
+
+label {
+	color: rgb(157, 150, 167);
+	font: 900;
+}
