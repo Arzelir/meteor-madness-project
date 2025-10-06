@@ -83,7 +83,7 @@ nav {
 header {
 	position: sticky;
 	top: 0;
-	z-index: 99999;
+	z-index: 99998;
 }
 
 #person_img {
@@ -142,5 +142,6 @@ a {
 	background-color: rgb(28, 29, 29);
 	padding: 2em;
 	border-radius: 12px;
-	top: 6em;
+	top: 10%;
+	z-index: 99999;
 }

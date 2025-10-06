@@ -42,23 +42,45 @@
 		</header>
 
 		<br /><br /><br /><br />
-		<h1>Research and Sources</h1>
+		<h1>Project Description Research</h1>
 		<br /><br />
 
 		<div class="container">
-			<div class="row">
+			<div class="row custom-row">
 				<div
-					class="col-8 col-md-8"
+					class="col-12 custom-col1"
 				>
-				<p>Hello</p>
+				<p>
+					For this project, we wanted to use APIs and databases provided by NASA to create a helpful service.
+					Our project is a meteor impact simulator that demonstrates how much of an area can be affected by a
+					meteor based on its mass and velocity. The simulator can demonstrate the inundation caused by the impact,
+					the range of overpressure and the range of an earthquake. This simulator can benefit decision makers by
+					creating an understanding of how much area will be affected by a meteor strike. There are preset asteroids
+					that the user can choose from and a constantly updating list of asteroids that are currently near Earth.
+					Users can visualize the different impact scenarios of the selectable or custom asteroids created.
+				</p>
+				<p>
+					To calculate the asteroid impact, we used the mass and velocity to find the kinetic energy. We converted to the TNT equivalent and then used the cube-root scaling law (Hopkinson-Cranz scaling) with a preset overpressure (1 psi) to calculate the radius.
+				</p>
+				<p>
+					The earthquake was calculated by using the Gutenberg-Richter energy-magnitude relation. The kinetic energy is calculated, and then a preset seismic coefficient is used to help calculate the force and range of the earthquake.
+				</p>
+				<p>
+					The tsunami inundation was calculated by estimating the amount of energy that goes into the water, using a constant area impacted by the wave, and an average coastal slope of 0.01. Using this information, we were able to find an estimated range.
+				</p>
+				<p>
+					This resource should be useful in learning more about meteor impacts and should help users prepare ahead for
+					emergency situations. We hope to help the general public with this website, since many resources regarding these
+					topics are too complex for most people.
+				</p>
 				</div>
 				<div
-					class="col-4 col-md-4"
+					class="col-12 custom-col2"
 				>
 				<img
 					style="padding-top: 3%; padding-left: 3%"
-					src="Shatat.JPG"
-					alt="This is Shatat!"
+					src="Logo.PNG"
+					alt="This is our logo!"
 					id="person_img"
 				/></div>
 		<br /><br />
